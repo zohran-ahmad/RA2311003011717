@@ -11,14 +11,13 @@ const weightMap = {
 
 async function getTopNotifications(n = 10) {
   try {
-    logger.info("Fetching notifications from API");
+    logger.info("Fetching notifications...");
 
     const res = await fetch(API_URL);
     const data = await res.json();
 
     const notifications = data.notifications;
 
-    logger.info(`Fetched ${notifications.length} notifications`);
     const sorted = notifications.sort((a, b) => {
       const w1 = weightMap[a.Type];
       const w2 = weightMap[b.Type];
@@ -31,13 +30,11 @@ async function getTopNotifications(n = 10) {
 
     logger.info("Top notifications computed");
 
-    return topN;
+    console.log(topN);
 
-  } catch (error) {
-    logger.error("Error fetching notifications", error);
+  } catch (err) {
+    logger.error("Error:", err);
   }
 }
-getTopNotifications(10).then((res) => {
-  console.log("Top Notifications:");
-  console.log(res);
-});
+
+getTopNotifications(10);
